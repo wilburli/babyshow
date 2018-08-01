@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -22,6 +23,7 @@ import java.util.Properties;
 @tk.mybatis.spring.annotation.MapperScan(basePackages = "com.windblue.mapper")
 @SpringBootApplication
 @Configuration
+@EnableSwagger2
 public class BabyshowApplication {
 
 	@Autowired

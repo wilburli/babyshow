@@ -27,25 +27,32 @@ package com.windblue.controller;
 import com.github.pagehelper.PageInfo;
 import com.windblue.model.Country;
 import com.windblue.service.CountryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/countries")
+@Api(value = "CountryController|国家的控制器")
 public class CountryController {
 
     @Autowired
     private CountryService countryService;
 
     @RequestMapping
+    @ApiOperation(value = "获取国家信息",notes = "备注")
+    @ApiImplicitParam(paramType="query",name="country",value="国家名字",required = false,dataType = "Country")
     public ModelAndView getAll(Country country) {
         ModelAndView result = new ModelAndView("index");
         List<Country> countryList = countryService.getAllByWeekend(country);
@@ -55,6 +62,21 @@ public class CountryController {
         result.addObject("rows", country.getRows());
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getAll2")
+    @ApiOperation(value = "获取国家信息",notes = "备注")
+    @ApiImplicitParam(paramType="query",name="country",value="国家名字",required = false,dataType = "Country")
+    public List<Country> getAll2(Country country) {
+        ModelAndView result = new ModelAndView("index");
+        List<Country> countryList = countryService.getAllByWeekend(country);
+        result.addObject("pageInfo", new PageInfo<Country>(countryList));
+        result.addObject("queryParam", country);
+        result.addObject("page", country.getPage());
+        result.addObject("rows", country.getRows());
+        return countryList;
+    }
+
 
     @RequestMapping(value = "/add")
     public ModelAndView add() {
@@ -72,6 +94,11 @@ public class CountryController {
     }
 
     @RequestMapping(value = "/delete/{id}")
+    @ApiOperation(value = "删除国家")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", value = "国家id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "ra", value = "重定向返回信息", required = false, dataType = "RedirectAttributes")
+    })
     public ModelAndView delete(@PathVariable Integer id, RedirectAttributes ra) {
         ModelAndView result = new ModelAndView("redirect:/countries");
         countryService.deleteById(id);
