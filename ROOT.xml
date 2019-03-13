@@ -1,0 +1,3 @@
+<Context path="ROOT" reloadable="true" docBase="E:\source-pro\police-project-manager-shzg-new_D_1.0.1.13_20181126\src\main\webapp" workDir="E:\source-pro\police-project-manager-shzg-new_D_1.0.1.13_20181126\work\org\apache\jsp" >
+	<Loader className="org.apache.catalina.loader.DevLoader" reloadable="true" debug="1" useSystemClassLoaderAsParent="false" />
+</Context>
